@@ -23,12 +23,25 @@ public class App {
                     write();
                     break;
 
+                case"목록" :
+                    list();
+                    break;
+
                 case"종료" :
                     break outer;
             }
         }
     sc.close();
 
+    }
+
+    private void list() {
+        System.out.println(" 번호 / 작가 / 명언 ");
+        System.out.println(" ----------------- ");
+        for(int i=WiseSayingLastId-1; i>=0; i--){
+            WiseSaying wiseSaying = wiseSayings.get(i);
+            System.out.printf(" %d / %s / %s\n",wiseSaying.id, wiseSaying.author, wiseSaying.content);
+        }
     }
 
     private void write() {
