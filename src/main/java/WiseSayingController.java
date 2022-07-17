@@ -4,15 +4,11 @@ import java.util.Scanner;
 
 public class WiseSayingController {
 
-
-    List<WiseSaying> wiseSayings ;
-    private int WiseSayingLastId ;
     private Scanner sc;
+    WiseSayingRepository wiseSayingRepository;
     WiseSayingController(Scanner sc){
         this.sc = sc;
-        wiseSayings = new ArrayList<>();
-        WiseSayingLastId = 0;
-
+        wiseSayingRepository = new WiseSayingRepository();
 
     }
 
@@ -24,7 +20,7 @@ public class WiseSayingController {
             return;
         }
 
-        WiseSaying foundwiseSaying = findById(paramId);
+        WiseSaying foundwiseSaying = wiseSayingRepository.findById(paramId);
         if( foundwiseSaying  == null){
             System.out.printf("%d번 명언은 존재하지 않습니다.\n", paramId);
             return;
@@ -45,43 +41,36 @@ public class WiseSayingController {
             return;
         }
 
-        WiseSaying foundwiseSaying = findById(paramId);
+        WiseSaying foundwiseSaying = wiseSayingRepository.findById(paramId);
         if( foundwiseSaying  == null){
             System.out.printf("%d번 명언은 존재하지 않습니다.\n", paramId);
             return;
         }
-        wiseSayings.remove(foundwiseSaying);
+        wiseSayingRepository.wiseSayings.remove(foundwiseSaying);
         System.out.printf("%d번 명언이 삭제되었습니다.\n",paramId);
 
     }
 
-    private WiseSaying findById(int id) {
-        for(WiseSaying wiseSaying:wiseSayings){
-            if(wiseSaying.id == id){
-                return wiseSaying;
-            }
-        }
-        return null;
-    }
+
 
     public void list() {
         System.out.println(" 번호 / 작가 / 명언 ");
         System.out.println(" ----------------- ");
-        for(int i=wiseSayings.size()-1; i>=0; i--){
-            WiseSaying wiseSaying = wiseSayings.get(i);
+        for(int i=wiseSayingRepository.wiseSayings.size()-1; i>=0; i--){
+            WiseSaying wiseSaying = wiseSayingRepository.wiseSayings.get(i);
             System.out.printf(" %d / %s / %s\n",wiseSaying.id, wiseSaying.author, wiseSaying.content);
         }
     }
 
     public void write() {
-        int id = ++WiseSayingLastId;
+        int id = ++wiseSayingRepository.WiseSayingLastId;
         System.out.println("명언 : ");
         String content = sc.nextLine();
         System.out.println("작가 : ");
         String author = sc.nextLine();
 
         WiseSaying wiseSaying = new WiseSaying(id, content, author);
-        wiseSayings.add(wiseSaying);
+        wiseSayingRepository.wiseSayings.add(wiseSaying);
         System.out.printf("%d번 명언이 등록되었습니다.\n", id);
     }
 }
